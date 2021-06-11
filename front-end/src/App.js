@@ -9,9 +9,10 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import Date from './Date';
 import JSONDATA from './MOCK_DATA.json'
-
+import {useState} from 'react'  
 
 const App = () => {
+    const [searchTerm, setSearchTerm] = useState('')
    const rowData = [
        {Symbol: "EQUIX", Company: "Equinix", Price: '$' + 822.99},
        {Symbol: "AMZN", Company: "Amazon", Price: '$' +  3349.65},
@@ -24,7 +25,20 @@ const App = () => {
          height: 500, width: 600}}>
             <div>
               <Date></Date>
-              <input type="text" placeholder="Search.."></input>
+              <input type="text" placeholder="Search Stock.." onChange={event => {setSearchTerm(event.target.value)}}></input>
+              {JSONDATA.filter((val) => {
+                  if (searchTerm == "") {
+                      return val
+
+                  } else if (val.Name.toLowerCase().includes(searchTerm.toLowerCase())){
+                          return val
+
+                      }
+
+                  
+                }).map((val, key)=> {
+          return <div> {val.Name}</div>
+        })}
               
             </div>
            <AgGridReact

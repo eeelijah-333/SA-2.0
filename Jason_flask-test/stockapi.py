@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, json, jsonify
 from flask_restful import Resource, Api
+from flask_cors import CORS
 import pandas as pd
 import numpy as np
 import json
@@ -13,39 +14,39 @@ def get_details(ticker):
     low = symbol.history(period='1d').iloc[0, 2]
     close = symbol.history(period='1d').iloc[0, 3]
     volume = symbol.history(period='1d').iloc[0, 4]
-    stock_dict = {'Symbol': ticker, 'Open': "$" + str(open), 'High': "$" + str(
-        high), 'Low': "$" + str(low), 'Close': "$" + str(close), 'Volume': "$" + str(volume)}
+    marketcap = symbol.info['marketCap']
+    PE = symbol.info['priceToSalesTrailing12Months']
+
+    stock_dict = {
+        'Symbol': str(ticker),
+        'Open': str(open),
+        'High': str(high),
+        'Low': str(low),
+        'Close': str(close),
+        'Volume': str(volume),
+        'Marketcap': str(marketcap),
+        'P/E': str(PE)}
 
     return stock_dict
 
 
 app = Flask(__name__)
 
+CORS(app)
+
 
 @app.route('/')
 def home():
     return "HELLO this is homepage"
 
+# URL/<ANY TICKER> will give you the infor for any stock
+
 
 @app.route('/<name>')
 def json_convert(name):
-    stock_dict2 = get_details(name)
-    try:
-        stocklist = []
-
-        for name, value in stock_dict2.items():
-            stocklist.append({name: value})
-
-        return jsonify(json.dumps(stocklist))
-    except Exception as e:
-        print(str(e))
-        return jsonify(str(e))
-    return f'hello {name}!'
+    stock_dict = json.dumps(get_details(name))
+    return stock_dict
 
 
 if __name__ == "__main__":
     app.run()
-
-# @app.route('/stocks')
-# def get_stock():
-   # return("stock":"stock details")

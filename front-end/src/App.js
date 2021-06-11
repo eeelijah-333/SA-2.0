@@ -1,25 +1,39 @@
-import logo from './logo.svg';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import React from 'react';
+import { render } from 'react-dom';
+import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import Date from './Date';
+
+const App = () => {
+   const rowData = [
+       {Symbol: "EQUIX", Company: "Equinix", Price: '$' + 822.99},
+       {Symbol: "AMZN", Company: "Amazon", Price: '$' +  3349.65},
+       {Symbol: "WMNT", Company: "Walmart", Price: '$' + 126.11},
+       {Symbol: "TSLA", Company: "Tesla", Price: '$' + 610.12},
+       {Symbol: "AAPL", Company: "Apple", Price: '$' + 126.11}
+   ];
+   return (
+       <div className="ag-theme-alpine" style={{
+         height: 500, width: 600}}>
+            <div>
+              <Date></Date>
+              <input type="text" placeholder="Search.."></input>
+              
+            </div>
+           <AgGridReact
+               rowData={rowData}>
+               <AgGridColumn field="Symbol"></AgGridColumn>
+               <AgGridColumn field="Company"></AgGridColumn>
+               <AgGridColumn field="Price"></AgGridColumn>
+           </AgGridReact>
+       </div>
+   );
+};
+
+render(<App />, document.getElementById('root'));
 export default App;

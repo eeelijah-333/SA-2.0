@@ -9,7 +9,7 @@ function App() {
 
     
       
-      <input type = "text" placeholder="Search..." />
+      <input type = "text" placeholder="Search Stock..." />
 
 
       {JSONDATA.map((val, key)=> {

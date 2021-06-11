@@ -8,6 +8,8 @@ import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import Date from './Date';
+import JSONDATA from './MOCK_DATA.json'
+
 
 const App = () => {
    const rowData = [
@@ -34,6 +36,24 @@ const App = () => {
        </div>
    );
 };
+function Search() {
+    return (
+      <div className="Search">
+        {/* <Stock></Stock> */}
+  
+      
+        
+        <input type = "text" placeholder="Search Stock..." />
+  
+  
+        {JSONDATA.map((val, key)=> {
+          return <div> {val.Name}</div>
+        })}
+      </div>
+  
+  
+    );
+  }
 
 render(<App />, document.getElementById('root'));
 export default App;

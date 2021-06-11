@@ -40,6 +40,7 @@ class Stock extends React.Component{
                     WALMART WMT
                 </button>
             </div>
+            
         )
     }
 }

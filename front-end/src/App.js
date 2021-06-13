@@ -14,7 +14,7 @@ import {useState} from 'react'
 const App = () => {
     const [searchTerm, setSearchTerm] = useState('')
    const rowData = [
-       {Symbol: "EQUIX", Company: "Equinix", Price: '$' + 822.99},
+       {Symbol: "EQIX", Company: "Equinix", Price: '$' + 822.99},
        {Symbol: "AMZN", Company: "Amazon", Price: '$' +  3349.65},
        {Symbol: "WMNT", Company: "Walmart", Price: '$' + 126.11},
        {Symbol: "TSLA", Company: "Tesla", Price: '$' + 610.12},
@@ -59,7 +59,7 @@ function Search() {
         
         <input type = "text" placeholder="Search Stock..." />
   
-  
+
         {JSONDATA.map((val, key)=> {
           return <div> {val.Name}</div>
         })}

@@ -53,7 +53,7 @@ def json_convert(name):
 @app.route('/stocks')
 def json_list_maker():
     json_list = []
-    for stock in ['EQIX']: #['AAPL','AMZN', 'EQIX', 'TSLA', 'WMT']:
+    for stock in ['AAPL','AMZN', 'EQIX', 'TSLA', 'WMT']:
         json_list.append((get_details(stock)))
     return jsonify(json_list)
 

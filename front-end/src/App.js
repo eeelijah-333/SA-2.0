@@ -57,7 +57,7 @@ function Search() {
   
       
         
-        <input type = "text" placeholder="Search Stock..." />
+        <input type = "text" placeholder="Type in Stock..." />
   
 
         {JSONDATA.map((val, key)=> {

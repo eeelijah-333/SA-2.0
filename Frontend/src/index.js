@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Watchlist from './pages/watchlist/Watchlist';
 import Details from './pages/details/Details';
+import Searchbar from './pages/Searchbar/'
+import Stocks from './pages/Stocks/'
+
 
 import {
   BrowserRouter as Router,
@@ -20,6 +23,8 @@ ReactDOM.render(
 
         route /details
         <Details></Details>
+        <Searchbar type="text" placeholder="Search..."></Searchbar>
+        <Stocks></Stocks>
       </Route>
       <Route path="/watchlist">
 

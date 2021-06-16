@@ -1,5 +1,5 @@
-import styles from './Stockls.css'
-import Link from 'next/link'
+import styles from './stockls.css'
+import { Link } from "react-router-dom";
 
 const Stock = ({name,
     symbol,

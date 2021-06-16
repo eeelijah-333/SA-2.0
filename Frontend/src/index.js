@@ -27,7 +27,11 @@ ReactDOM.render(
         <Stocks></Stocks>
       </Route>
       <Route path="/watchlist">
+    
+        
 
+        
+        
         route /watchlist
         <Watchlist></Watchlist>
       </Route>
@@ -39,3 +43,16 @@ ReactDOM.render(
   </Router>,
   document.getElementById('root')
 );
+
+export const getStockApi = async () => {
+
+  const res = await fetch('http://127.0.0.1:5000/stocks')
+
+  const filteredStocks = await res.json()
+
+  return {
+    props: {
+      filteredStocks
+    }
+  };
+};

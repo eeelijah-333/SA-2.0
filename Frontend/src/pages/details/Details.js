@@ -61,7 +61,11 @@ class Details extends React.Component {
                 {/* Conditional Rendering loads skeliton if the data is still not received else it will show the table with data                     */}
                 {!this.state.isLoaded ?
                     // Loads skeliton while pulling the API response
-                    <Skeleton count={5} />
+                    <div>
+                        <Skeleton height={52} />
+                        <Skeleton height={48} count={5} />
+                    </div>
+
                     :
                     // Loads table when response is received
                     <main>
@@ -71,7 +75,7 @@ class Details extends React.Component {
                                 <h5 className='float-left stock-comp-name'>{this.state.stockDetails.price.shortName}</h5>
                             </div>
                             <div className="float-right">
-                                <h2>{this.state.stockDetails.financialData.currentPrice.fmt}</h2>
+                                <h2>${this.state.stockDetails.financialData.currentPrice.fmt}</h2>
                             </div>
                         </div>
                         <table className="table table-borderless">

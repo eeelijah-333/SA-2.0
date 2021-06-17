@@ -14,20 +14,41 @@ class Details extends React.Component {
             stockSymbol: this.props.match.params.stockSymbol,
             stockDetails: {},
             error: false,
-            errorMessage: ''
+            errorMessage: '',
+            isInWatchlist: null
         };
+        this.addToTheWatchList = this.addToTheWatchList.bind(this);
+        this.RemoveFromWatchList = this.RemoveFromWatchList.bind(this);
     }
     componentDidMount() {
+        // check if the the stock is in watchlist
+        if (localStorage.watchlistSymbols) {
+            if (localStorage.watchlistSymbols.includes(this.state.stockSymbol)) {
+                this.setState({
+                    isInWatchlist: true,
+                }, () => {
+                    console.log(this.state);
+                });
+            } else {
+                this.setState({
+                    isInWatchlist: false,
+                });
+            }
+        }
+        else {
+            console.error('LocalStorage.watchlistSymbols is empty or not defined');
+        }
+
+
+
         // // Use this for dummy data
         // this.setState({
         //     isLoaded: true,
         //     stockDetails: DummyData.applStockData
         // });
 
-
         // // use this code for dynamic data
         let apiURL = EnvConstants.BE_URL + '/stock/' + this.state.stockSymbol;
-        console.log(apiURL);
         fetch(apiURL)
             .then(res => res.json())
             .then(
@@ -48,13 +69,52 @@ class Details extends React.Component {
             )
     }
 
+
+    addToTheWatchList() {
+        let updatedVal = [];
+        updatedVal = localStorage.watchlistSymbols.split(',');
+        updatedVal.push(this.state.stockSymbol)
+        localStorage.watchlistSymbols = updatedVal.join(`,`);
+        this.setState({
+            isInWatchlist: true
+        });
+    }
+
+    RemoveFromWatchList() {
+        let symbolsArray = localStorage.watchlistSymbols.split(',');
+        let symbolIndex = symbolsArray.indexOf(this.state.stockSymbol);
+
+        if (symbolIndex > -1) {
+            symbolsArray.splice(symbolIndex, 1);
+        }
+
+        localStorage.watchlistSymbols = symbolsArray.join(',');
+        console.log(localStorage.watchlistSymbols);
+
+        this.setState({
+            isInWatchlist: false
+        });
+    }
+
+
     render() {
         return (
             <div className="detailes-view">
                 <header className="clearfix">
                     <Link className="btn btn-link btn-sm float-left" to="/">  &#x2190; Back</Link>
-                    <button type="button" className="btn btn-primary btn-sm float-right">+ Add</button>
-                    <button type="button" className="btn btn-danger btn-sm float-right">- Remove</button>
+                    {/* Toggle Add or remove button based on if stock is available in watchlist */}
+                    {
+                        (this.state.isInWatchlist === null) ?
+                            null :
+                            (this.state.isInWatchlist) ?
+                                <div className='float-right'>
+                                    <button type="button" className="btn btn-danger btn-sm" onClick={this.RemoveFromWatchList}>- Remove</button>
+                                </div> :
+                                <div className='float-right'>
+                                    <button type="button" className="btn btn-primary btn-sm" onClick={this.addToTheWatchList}>+ Add</button>
+                                </div>
+                    }
+
                 </header>
                 <hr />
 

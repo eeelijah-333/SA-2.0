@@ -39,7 +39,6 @@ class Watchlist extends React.Component {
         watchlistSymbols: localStorage.watchlistSymbols
       }, () => {
         this.populateWatchlist();
-        console.log(this.state);
       });
     } else {
       console.error('Browser doesn\' support localstorage');
@@ -59,8 +58,7 @@ class Watchlist extends React.Component {
 
   populateWatchlist() {
     let watchlistLocal = this.state.watchlistSymbols;
-    // let apiURL = EnvConstants.BE_URL + '/stocks/' + watchlistLocal;
-    let apiURL = EnvConstants.BE_URL + '/stocksasdfasdf/' + watchlistLocal;
+    let apiURL = EnvConstants.BE_URL + '/stocks/' + watchlistLocal;
     fetch(apiURL)
       .then(res => res.json())
       .then(
@@ -69,7 +67,6 @@ class Watchlist extends React.Component {
             isLoaded: true,
             watchListItems: result.quoteResponse.result
           });
-          console.log(result.quoteResponse.result);
         },
         (error) => {
           this.setState({
@@ -79,7 +76,6 @@ class Watchlist extends React.Component {
           });
         }
       )
-    console.log(watchlistLocal);
   }
 
   render() {

@@ -63,8 +63,8 @@ class Watchlist extends React.Component {
     render() {
         return (
             <div className="search-dropdown-wrap">
-                <div class="form-group">
-                    <input id="searchbox" type="text" class="form-control" aria-describedby="search box" placeholder="Search..." onChange={(e) => this.onChangeSearch(e)} />
+                <div className="form-group">
+                    <input id="searchbox" type="text" className="form-control" aria-describedby="search box" placeholder="Search..." onChange={(e) => this.onChangeSearch(e)} autoComplete="off"/>
                     <div className="search-dropdown">
                         {/* {!this.state.isLoaded ?
                             <Skeleton height={73} count={5} />
@@ -87,7 +87,7 @@ class Watchlist extends React.Component {
                                             {this.state.suggestions.map((suggestionItem) =>
                                                 < li className="suggestion-item" key={suggestionItem.symbol}>
                                                     <Link to={'/details/' + suggestionItem.symbol} >
-                                                        {suggestionItem.symbol + '   ' + suggestionItem.shortname}
+                                                        {suggestionItem.symbol}<span> {suggestionItem.shortname}</span>
                                                     </Link>
                                                 </li>
                                             )

@@ -15,6 +15,7 @@ flask run
 
 ## cmd to check python version
 python --version
+python3 --version 
 
 ## API references
-/
+/stocks 

@@ -5,3 +5,9 @@
     margin: 0px;
     padding: 4px 8px;
 }
+
+.stock-comp-name {
+    padding: 10px;
+    margin-left: 15px;
+    color: rgba(0, 0, 0, 0.6);
+}

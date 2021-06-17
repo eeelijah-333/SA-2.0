@@ -19,12 +19,18 @@ ReactDOM.render(
         <div className="card-1">
           <Router>
             <Switch>
-              <Route path="/details">
+              {/* <Route path="/details">
                 <Details></Details>
-              </Route>
+              </Route> */}
               <Route path="/watchlist">
                 <Watchlist></Watchlist>
               </Route>
+              {/* <Route path="/details/:stockSymbol">
+                <p>details with stocksymbol</p>
+                <Details></Details>
+              </Route> */}
+              <Route path="/details/:stockSymbol" children={<Details/>} />
+
               <Route path="/">
                 <Watchlist></Watchlist>
               </Route>

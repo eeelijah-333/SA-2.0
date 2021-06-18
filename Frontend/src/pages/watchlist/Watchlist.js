@@ -1,4 +1,5 @@
 import './Watchlist.css';
+// import {Date} from './Date';
 import { Link } from "react-router-dom";
 
 
@@ -13,9 +14,11 @@ function Watchlist() {
             <table class="table table-border table-hover">
               <thead>
                 <tr>
-                  <th >Date</th>
-                  <th ></th>
-                  <th class="text-right"> search bar </th>
+                  <th>
+                    {/* <Date/> */}
+                  </th>
+                  <th></th>
+                  <th class="text-right"> <input type="text" placeholder="Search.."></input> </th>
                 </tr>
               </thead>
               <tbody>

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Watchlist from './pages/watchlist/Watchlist';
 import Details from './pages/details/Details';
 
+
 import {
   BrowserRouter as Router,
   Switch,

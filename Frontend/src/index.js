@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import Watchlist from './pages/watchlist/Watchlist';
 import Details from './pages/details/Details';
 

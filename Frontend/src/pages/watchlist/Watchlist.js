@@ -1,38 +1,50 @@
 import './Watchlist.css';
-// import {Date} from './Date';
+import DateTime from './DateTime';
 import { Link } from "react-router-dom";
+import React from 'react';
 
 
-function Watchlist() {
 
 
-  return (
-    <div className="watchlist-view">
-      <div className="container">
-        <div className="row justify-content-md-center">
-          <div className="col-8">
-            <table class="table table-border table-hover">
-              <thead>
-                <tr>
-                  <th>
-                    {/* <Date/> */}
-                  </th>
-                  <th></th>
-                  <th class="text-right"> <input type="text" placeholder="Search.."></input> </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th >symbol</th>
-                  <td>Name</td>
-                  <td class="text-right">price</td>
-                </tr>
-              </tbody>
-            </table>
+
+class Watchlist extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+
+  render() {
+
+    return (
+      <div className="watchlist-view">
+        <div className="container">
+          <div className="row justify-content-md-center">
+            <div className="col-8">
+              <table class="table table-borderless table-hover">
+                  <thead>
+                    <tr>
+                      <td><td><DateTime/></td></td>
+                      <td></td>
+                      <td></td>
+                      <th class="text-right"> <input type="text" placeholder="Search.."></input> </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Symbol</th>
+                      <td>Name</td>
+                      <td></td>
+                      <td class="text-right">Price</td>
+                    </tr>
+                  </tbody>
+              </table>
+              
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 export default Watchlist;

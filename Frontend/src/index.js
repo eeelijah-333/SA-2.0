@@ -23,6 +23,7 @@ ReactDOM.render(
       </Route>
       <Route path="/watchlist">
 
+
         route /watchlist
         <Watchlist></Watchlist>
       </Route>

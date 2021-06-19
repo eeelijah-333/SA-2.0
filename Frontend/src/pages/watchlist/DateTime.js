@@ -32,7 +32,10 @@ class DateTime extends React.Component {
     render() {
       return (
         <div>
-          <td>{this.state.date.toLocaleDateString()}{" "}{this.state.date.toLocaleTimeString()}{" "}<input type="text" placeholder="Search.."></input></td> 
+          <center>
+          <td>{this.state.date.toLocaleDateString()}{" "}{this.state.date.toLocaleTimeString()}{" "} <input type="text" placeholder="Search.."></input></td> 
+          </center>
+        
         </div>
       );
     }

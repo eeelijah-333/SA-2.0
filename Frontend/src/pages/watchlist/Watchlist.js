@@ -37,23 +37,23 @@ function Watchlist() {
               </div>
 
               <ul class="list-group list-group">
-                <li class="list-group-item"><Link to="/EQIX">EQIX</Link>
+                <li class="list-group-item"><Link to="/details">EQIX</Link>
                   <p class="card-subtitle mb- text-primary" id="stock-info">$809.97</p>
                 </li>
 
-                <li class="list-group-item"><Link to="/AMZN">AMZN</Link>
+                <li class="list-group-item"><Link to="/details">AMZN</Link>
                               <p class="card-subtitle mb-2 text-primary" id="stock-info">$137.15</p>
                 </li>
 
-                <li class="list-group-item"><Link to="/TSLA">TSLA</Link>
+                <li class="list-group-item"><Link to="/details">TSLA</Link>
                               <p class="card-subtitle mb-2 text-primary" id="stock-info">$604.87</p>
                 </li>
 
-                <li class="list-group-item"><Link to="/WMT">WMT</Link>
+                <li class="list-group-item"><Link to="/details">WMT</Link>
                               <p class="card-subtitle mb-2 text-primary" id="stock-info">$3,415.25</p>
                 </li>
 
-                <li class="list-group-item"><Link to="/APPL">AAPL</Link>
+                <li class="list-group-item"><Link to="/details">AAPL</Link>
                               <p class="card-subtitle mb-2 text-primary" id="stock-info">$130.15</p>
                 </li>
 

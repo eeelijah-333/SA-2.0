@@ -1,0 +1,21 @@
+.card-watchlist {
+    width: 20rem;
+    
+}
+
+#watchlist-info{
+
+    float: right;
+}
+#stock-info {
+    float: right;
+}
+
+#add-button{
+    float: right;
+}
+
+#remove-button{
+    float: right;
+}
+

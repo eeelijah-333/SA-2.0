@@ -1,73 +1,231 @@
+import React from "react";
 import './Watchlist.css';
 import { Link } from "react-router-dom";
 import DateTime from './DateTime';
+import * as EnvConstants from '../apicall'
+import Skeleton from 'react-loading-skeleton';
+import StockItems from "../Stocklist";
 
 
 
-function Watchlist() {
-  return (
-    <div className="watchlist-view">
-      <div className="container">
-        <div className="row justify-content-md-center">
-          <div className="col-8">
-            
 
-            <div class="card-main">
-              <div class="button-body">
 
-              </div>
-              
+class Watchlist extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          isLoaded: false,
+          stockSymbols: '',
+          stockListItems:[],
+          error: false,
+          errorMessage: ''
+        };
+      }
 
-              <div class="card-body">
-              
 
-                <p class="card-title"><DateTime /></p>
+  
+
+
+    
+    // make an API call in the beginning
+    componentDidMount() {
+
+        if (typeof (Storage) !== "undefined") {
+          console.log('Browser supports localstorage');
+          if (!localStorage.stockSymbols) {
+            localStorage.stockSymbols = 'EQIX,AAPL,WMT,TSLA,AMZN';
+          }
+          this.setState({
+            stockSymbols: localStorage.stockSymbols
+          }, () => {
+              console.log('Before populatewatchlist()');
+            this.populateWatchlist();
+            console.log('After populatewatchlist()');
+            console.log(this.state);
+          });
+        } else {
+          console.error('Browser does not support localstorage');
+        }
+      }
+    
+      populateWatchlist() {
+        let watchlistLocal = this.state.stockSymbols;
+        console.log('inside populatewatchlist');
+        fetch('http://127.0.0.1:5000/stocks')
+          .then(res => res.json())
+          .then(
+            (result) => {
+                console.log(11111111111);
+                console.log(result);
+              this.setState({
+                isLoaded: true,
+                stockListItems: result
+              });
+            },
+            (error) => {
+                console.error('FAILED...............');
+              this.setState({
+                isLoaded: false,
+                error: true,
+                errorMessage: error
+              });
+            }
+          )
+        console.log(watchlistLocal);
+      }
+    
+
+//     const { error, isLoaded, stockItem } = this.state;
+// //   const [loading, setLoading] = useState(false);
+//   if (error) {
+//       return <div>Error: {error.message}</div>;
+//     // } else if (!isLoaded) {
+//     //     return <div>Loading...</div>;
+//     } else {
         
-              </div>
+    render() {
 
-              <ul class="list-group list-group">
-                <li class="list-group-item"><Link to="/details">EQIX</Link>{" "}
-                <a class="card-subtitle mb-2 text-muted">Equinx Inc.</a>
-                  <p class="card-subtitle text-primary" id="stock-info">$809.97</p>
-                </li>
+        return (
+            
+            <div className="watchlist-view">
+                <div className="container">
+                    <div className="row justify-content-md-center">
+                        <div className="col-8">
+                            <div class="card-main">
+                                <div class="button-body">
+    
+                                </div>
+                                    
+                                <div class="card-body">
+                                    <p class="card-title"><DateTime /></p>
 
-                <li class="list-group-item"><Link to="/details">AMZN</Link>{" "}
-                <a class="card-subtitle mb-2 text-muted">Amazon.com, Inc.</a>
-                              <p class="card-subtitle  text-primary" id="stock-info">$137.15</p>
-                </li>
+                                 
+                                    {!this.state.isLoaded ?
+                                    <Skeleton height={73} count={5} />
+                                    :
+    
+                                        <main>
+                                            {this.state.stockListItems.map((stockListItem) =>
+    
+                                            <Link to={'/details/' + stockListItem.Symbol} key={stockListItem.Symbol}>
+                
+                                                <StockItems stockSymbol={stockListItem.Symbol} stockName={stockListItem.Name} stockPrice={stockListItem.Close}></StockItems>
+                
+                                            </Link>
 
-                <li class="list-group-item"><Link to="/details">TSLA</Link>{" "}
-                <a class="card-subtitle mb-2 text-muted">Tesla Inc.</a>
-                              <p class="card-subtitle  text-primary" id="stock-info">$604.87</p>
-                </li>
-
-                <li class="list-group-item"><Link to="/details">WMT</Link>{" "}
-                <a class="card-subtitle mb-2 text-muted">Walmart Inc.</a>
-                              <p class="card-subtitle text-primary" id="stock-info">$3,415.25</p>
-                </li>
-
-                <li class="list-group-item"><Link to="/details">AAPL</Link>{" "}
-                <a class="card-subtitle mb-2 text-muted">Apple Inc.</a>
-                              <p class="card-subtitle text-primary" id="stock-info">$130.15</p>
-                </li>
-
-              </ul>
-
+                                            )
+                                        }
+                                    
+                                            
+                                        </main> 
+                                    }
+    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
             </div>
+        );
+        
+    };
 
-          </div>
-        </div>
-      </div>
 
-    </div>
-  );
-}
+};
 
-export default Watchlist;
 
+export default Watchlist
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {/* //   if (!localStorage.stockSymbols) { */}
+        //     localStorage.stockSymbols = 'EQIX,AAPL,WMT,TSLA,AMZN';
+        //   }
+        //   this.setState({
+        //     stockSymbols: localStorage.stockSymbols
+        //   }, () => {
+        //     this.populateWatchlist();
+        //     console.log(this.state);
+        //   });
+        // } 
+   
+
+
+
+
+
+
+
+
+{/* // <ul class="list-group list-group">
+                                        
+// <li class="list-group-item"><Link to="/details">{symbol}</Link>{" "}
+    
+//     <a class="card-subtitle mb-2 text-muted">{name}</a>
+    
+//         <p class="card-subtitle text-primary" id="stock-info">{close}</p>
+    
+// </li>
+    
+// <li class="list-group-item"><Link to="/details">{symbol}</Link>{" "}
+    
+//     <a class="card-subtitle mb-2 text-muted">{name}</a>
+    
+//         <p class="card-subtitle  text-primary" id="stock-info">{close}</p>
+    
+// </li>
+    
+// <li class="list-group-item"><Link to="/details">{symbol}</Link>{" "}
+    
+//     <a class="card-subtitle mb-2 text-muted">{name}</a>
+        
+//         <p class="card-subtitle  text-primary" id="stock-info">{close}</p>
+            
+// </li>
+    
+// <li class="list-group-item"><Link to="/details">{symbol}</Link>{" "}
+    
+//     <a class="card-subtitle mb-2 text-muted">{name}</a>
+        
+//         <p class="card-subtitle text-primary" id="stock-info">{close}</p>
+            
+// </li>
+    
+// <li class="list-group-item"><Link to="/details">{symbol}</Link>{" "}
+    
+//     <a class="card-subtitle mb-2 text-muted">{name}</a>
+        
+//         <p class="card-subtitle text-primary" id="stock-info">{close}</p>
+            
+// </li>
+    
+// </ul> */}

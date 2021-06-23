@@ -1,62 +1,49 @@
 import './Details.css';
 import { Link } from "react-router-dom";
 import React from 'react';
-import * as EnvConstants from '../Constants';
-import Skeleton from 'react-loading-skeleton';
-
  
 
 class Details extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        isLoaded: false,
-        stockSymbol: this.props.match.params.stockSymbol,
-        stockDetails: {},
-        error: false,
-        errorMessage: ''
+        // stockSymbol: this.props.match.params.stockSymbol,
+        // stockDetails: {},
+        // error: false,
+        // errorMessage: ''
+
       };
+      
+
     }
 
-    let apiURL = EnvConstants.MY_APIURL + '/stock/' + this.state.stockSymbol;
-    // console.log(apiURL);
-    fetch(apiURL)
-        .then(res => res.json())
-        .then(
-            (result) => {
-                this.setState({
-                    isLoaded: true,
-                    stockDetails: result
-                });
-                console.log(result);
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error: true,
-                    errorMessage: error
-                });
-            }
-        )
 
+    // addToTheWatchList() {
+    //     let updatedVal = [];
+    //     // updatedVal = localStorage.watchlistSymbols.split(',');
+    //     updatedVal.push(this.state.stockSymbol)
+    //     localStorage.watchlistSymbols = updatedVal.join(`,`);
+    //     this.setState({
+    //         isInWatchlist: true
+    //     });
+    // }
 
-    
-    componentDidMount() {
-        fetch("http://127.0.0.1:5000/stocks")
-          .then(res => res.json())
-          .then(
-            (result) => {
-              this.setState({
-                isLoaded: true,
-                items: result.items
-              });
-            },
+    // RemoveFromWatchList() {
+    //     let symbolsArray = localStorage.watchlistSymbols.split(',');
+    //     let symbolIndex = symbolsArray.indexOf(this.state.stockSymbol);
 
-        }
+    //     if (symbolIndex > -1) {
+    //         symbolsArray.splice(symbolIndex, 1);
+    //     }
 
+    //     localStorage.watchlistSymbols = symbolsArray.join(',');
+    //     console.log(localStorage.watchlistSymbols);
 
+    //     this.setState({
+    //         isInWatchlist: false
+    //     });
+    // }
 
-    
   
 
   
@@ -67,41 +54,56 @@ class Details extends React.Component {
             <div className="row justify-content-md-center">
                 <div className="col-8">
                     {/* <Link className="btn btn-primary mt-2" to="/">Go back</Link> */}
-                    <p>This is Detailed View</p>
                     
                     <div class="card">
                     <div class="button-body">
                         <Link className="btn-"to="/" >Back</Link>
-                        <button type="button" class="btn btn-primary btn-sm" id="add-button">Add +</button>
-                        <button type="button" class="btn btn-danger btn-sm" id="remove-button">Remove -</button>
                         
+                        {
+                        (this.state.isInWatchlist === null) ?
+                            null :
+                            (this.state.isInWatchlist) ?
+                                <div className='float-right'>
+                                    <button type="button" className="btn btn-danger btn-sm" onClick={this.RemoveFromWatchList}>- Remove</button>
+                                </div> :
+                                <div className='float-right'>
+                                    <button type="button" className="btn btn-primary btn-sm" onClick={this.addToTheWatchList}>+ Add</button>
+                                </div>
+                    }
 
-                    </div>
                     {/* <img src="..." class="card-img-top" alt="..."/> */}
                     
                         <div class="card-body">
-                        <h2 className='float-left'>{this.state.stockDetails.price.symbol}</h2>
+                            <h5 class="card-title">AAPL</h5>
                             <p class="card-subtitle mb-2 text-muted">Apple Inc.</p>
                         </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Recommended Action
+                        <li class="list-group-item">Close
                             <p class= "card-subtitle mb-2 text-muted" id="stock-info">Buy</p>
                         </li>
 
-                        <li class="list-group-item">Day High
+                        <li class="list-group-item">High
                             <p class= "card-subtitle mb-2 text-muted" id="stock-info">132.55</p>
                         </li>
 
                              
-                        <li class="list-group-item">Day Low
+                        <li class="list-group-item">Low
                             <p class= "card-subtitle mb-2 text-muted" id="stock-info">129.64</p>
                         </li>
 
-                        <li class="list-group-item">Current Ratio
+                        <li class="list-group-item">Marketcap
                             <p class= "card-subtitle mb-2 text-muted" id="stock-info">29.57</p>
                         </li>
                             
-                        <li class="list-group-item">Earnings Growth
+                        <li class="list-group-item">Open
+                            <p class= "card-subtitle mb-2 text-muted" id="stock-info">91.7%</p>
+                        </li>
+
+                        <li class="list-group-item">PE
+                            <p class= "card-subtitle mb-2 text-muted" id="stock-info">91.7%</p>
+                        </li>
+
+                        <li class="list-group-item">Volume
                             <p class= "card-subtitle mb-2 text-muted" id="stock-info">91.7%</p>
                         </li>
 
@@ -112,6 +114,8 @@ class Details extends React.Component {
                 </div>
             </div>
         </div>
+
+     </div>
 
      </div>
 

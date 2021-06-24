@@ -33,7 +33,7 @@ class Watchlist extends React.Component {
         if (typeof (Storage) !== "undefined") {
           console.log('Browser supports localstorage');
           if (!localStorage.stockSymbols) {
-            localStorage.stockSymbols = 'EQIX,AAPL,WMT,TSLA,AMZN';
+            localStorage.stockSymbols = 'AAPL,EQIX,TSLA,WMT,AMZN';
           }
           this.setState({
             stockSymbols: localStorage.stockSymbols
@@ -50,8 +50,8 @@ class Watchlist extends React.Component {
     
       populateWatchlist() {
         let watchlistLocal = this.state.stockSymbols;
-        console.log('inside populatewatchlist');
-        fetch('http://127.0.0.1:5000/stocks')
+        let apiURL = EnvConstants.BE_URL + watchlistLocal;
+        fetch(apiURL)
           .then(res => res.json())
           .then(
             (result) => {
@@ -107,9 +107,9 @@ class Watchlist extends React.Component {
                                         <main>
                                             {this.state.stockListItems.map((stockListItem) =>
     
-                                            <Link to={'/details/' + stockListItem.Symbol} key={stockListItem.Symbol}>
+                                            <Link to={'/details/' + stockListItem.symbol} key={stockListItem.symbol}>
                 
-                                                <StockItems stockSymbol={stockListItem.Symbol} stockName={stockListItem.Name} stockPrice={stockListItem.Close}></StockItems>
+                                                <StockItems stockSymbol={stockListItem.Symbol} stockName={stockListItem.shortName} stockPrice={stockListItem.regularMarketPrice}></StockItems>
                 
                                             </Link>
 

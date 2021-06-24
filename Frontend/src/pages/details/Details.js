@@ -16,7 +16,8 @@ class Details extends React.Component {
         stockSymbol: this.props.match.params.stockSymbol,
         stockDetails: {},
         error: false,
-        errorMessage: ''
+        errorMessage: '',
+        isInWatchlist : false,
 
       };
       this.addToTheWatchList = this.addToTheWatchList.bind(this);
@@ -26,6 +27,7 @@ class Details extends React.Component {
     }
     componentDidMount() {
         // check if the the stock is in watchlist
+        // alert(localStorage.stockSymbols);
         if (localStorage.stockSymbols) {
             if (localStorage.stockSymbols.includes(this.state.stockSymbol)) {
                 this.setState({
@@ -46,13 +48,15 @@ class Details extends React.Component {
 
     
     let apiURL = EnvConstants.BE_URL + this.state.stockSymbol;
+    console.log('API URL:' + apiURL);
     fetch(apiURL)
     .then(res => res.json())
     .then(
         (result) => {
+            console.log(JSON.stringify(result));
             this.setState({
                 isLoaded: true,
-                stockDetails: result
+                stockDetails: result[0]
             });
             console.log(result);
         },
@@ -69,7 +73,7 @@ class Details extends React.Component {
 
     addToTheWatchList() {
         let updatedVal = [];
-        // updatedVal = localStorage.stockSymbols.split(',');
+        updatedVal = localStorage.stockSymbols.split(',');
         updatedVal.push(this.state.stockSymbol)
         localStorage.stockSymbols = updatedVal.join(`,`);
         this.setState({
@@ -107,10 +111,7 @@ class Details extends React.Component {
                     <div class="card">
                     <div class="button-body">
                         <Link className="btn-"to="/" >Back</Link>
-                        
                         {
-                        (this.state.isInWatchlist === null) ?
-                            null :
                             (this.state.isInWatchlist) ?
                                 <div className='float-right'>
                                     <button type="button" className="btn btn-danger btn-sm" onClick={this.RemoveFromWatchList}>- Remove</button>
@@ -132,37 +133,37 @@ class Details extends React.Component {
                     :
                     <main>
                         <div className="card-body">
-                            <h5 class="card-title">{this.state.stockDetails.Symbol}</h5>
-                            <p class="card-subtitle mb-2 text-muted">{this.state.stockDetails.Name}</p>
+                            <h5 class="card-title">{this.state.stockDetails.symbol}</h5>
+                            <p class="card-subtitle mb-2 text-muted">{this.state.stockDetails.shortName}</p>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">Close
-                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.Close}</p>
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.name}</p>
                             </li>
 
                             <li class="list-group-item">High
-                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.High}</p>
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.regularMarketDayHigh}</p>
                             </li>
 
                              
                             <li class="list-group-item">Low
-                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.Low}</p>
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.regularMarketDayLow}</p>
                             </li>
 
                             <li class="list-group-item">Marketcap
-                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.Marketcap}</p>
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.marketCap}</p>
                             </li>
                             
                             <li class="list-group-item">Open
-                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.Open}</p>
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.regularMarketOpen}</p>
                             </li>
 
                             <li class="list-group-item">PE
-                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.PE}</p>
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.priceToSales}</p>
                             </li>
 
                             <li class="list-group-item">Volume
-                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.Volume}</p>
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.regularMarketVolume}</p>
                             </li>
 
                         </ul>

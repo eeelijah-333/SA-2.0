@@ -1,48 +1,97 @@
 import './Details.css';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import React from 'react';
- 
+import Watchlist from '../watchlist/Watchlist';
+import * as EnvConstants from '../apicall';
+import Skeleton from 'react-loading-skeleton';
+
+
+
 
 class Details extends React.Component {
+    
     constructor(props) {
       super(props);
       this.state = {
-        // stockSymbol: this.props.match.params.stockSymbol,
-        // stockDetails: {},
-        // error: false,
-        // errorMessage: ''
+        stockSymbol: this.props.match.params.stockSymbol,
+        stockDetails: {},
+        error: false,
+        errorMessage: ''
 
       };
+      this.addToTheWatchList = this.addToTheWatchList.bind(this);
+      this.RemoveFromWatchList = this.RemoveFromWatchList.bind(this);
       
 
     }
+    componentDidMount() {
+        // check if the the stock is in watchlist
+        if (localStorage.stockSymbols) {
+            if (localStorage.stockSymbols.includes(this.state.stockSymbol)) {
+                this.setState({
+                    isInWatchlist: true,
+                }, () => {
+                    console.log(this.state);
+                });
+            } else {
+                this.setState({
+                    isInWatchlist: false,
+                });
+            }
+        }
+        else {
+            console.error('LocalStorage.stockSymbols is empty or not defined');
+        }
 
 
-    // addToTheWatchList() {
-    //     let updatedVal = [];
-    //     // updatedVal = localStorage.watchlistSymbols.split(',');
-    //     updatedVal.push(this.state.stockSymbol)
-    //     localStorage.watchlistSymbols = updatedVal.join(`,`);
-    //     this.setState({
-    //         isInWatchlist: true
-    //     });
-    // }
+    
+    let apiURL = EnvConstants.BE_URL + this.state.stockSymbol;
+    fetch(apiURL)
+    .then(res => res.json())
+    .then(
+        (result) => {
+            this.setState({
+                isLoaded: true,
+                stockDetails: result
+            });
+            console.log(result);
+        },
+        (error) => {
+            this.setState({
+                isLoaded: true,
+                error: true,
+                errorMessage: error
+            });
+        }
+    )
+}
 
-    // RemoveFromWatchList() {
-    //     let symbolsArray = localStorage.watchlistSymbols.split(',');
-    //     let symbolIndex = symbolsArray.indexOf(this.state.stockSymbol);
 
-    //     if (symbolIndex > -1) {
-    //         symbolsArray.splice(symbolIndex, 1);
-    //     }
+    addToTheWatchList() {
+        let updatedVal = [];
+        // updatedVal = localStorage.stockSymbols.split(',');
+        updatedVal.push(this.state.stockSymbol)
+        localStorage.stockSymbols = updatedVal.join(`,`);
+        this.setState({
+            isInWatchlist: true
+        });
+    }
 
-    //     localStorage.watchlistSymbols = symbolsArray.join(',');
-    //     console.log(localStorage.watchlistSymbols);
+    RemoveFromWatchList() {
+        let symbolsArray = localStorage.stockSymbols.split(',');
+        let symbolIndex = symbolsArray.indexOf(this.state.stockSymbol);
 
-    //     this.setState({
-    //         isInWatchlist: false
-    //     });
-    // }
+        if (symbolIndex > -1) {
+            symbolsArray.splice(symbolIndex, 1);
+        }
+
+        localStorage.stockSymbols = symbolsArray.join(',');
+        console.log(localStorage.stockSymbols);
+
+        this.setState({
+            isInWatchlist: false
+        });
+    }
 
   
 
@@ -72,42 +121,54 @@ class Details extends React.Component {
                     }
 
                     {/* <img src="..." class="card-img-top" alt="..."/> */}
-                    
-                        <div class="card-body">
-                            <h5 class="card-title">AAPL</h5>
-                            <p class="card-subtitle mb-2 text-muted">Apple Inc.</p>
-                        </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Close
-                            <p class= "card-subtitle mb-2 text-muted" id="stock-info">Buy</p>
-                        </li>
 
-                        <li class="list-group-item">High
-                            <p class= "card-subtitle mb-2 text-muted" id="stock-info">132.55</p>
-                        </li>
+                    {!this.state.isLoaded ?
+                    // Loads skeliton while pulling the API response
+                    <div>
+                        <Skeleton height={52} />
+                        <Skeleton height={48} count={5} />
+                    </div>
+
+                    :
+                    <main>
+                        <div className="card-body">
+                            <h5 class="card-title">{this.state.stockDetails.Symbol}</h5>
+                            <p class="card-subtitle mb-2 text-muted">{this.state.stockDetails.Name}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Close
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.Close}</p>
+                            </li>
+
+                            <li class="list-group-item">High
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.High}</p>
+                            </li>
 
                              
-                        <li class="list-group-item">Low
-                            <p class= "card-subtitle mb-2 text-muted" id="stock-info">129.64</p>
-                        </li>
+                            <li class="list-group-item">Low
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.Low}</p>
+                            </li>
 
-                        <li class="list-group-item">Marketcap
-                            <p class= "card-subtitle mb-2 text-muted" id="stock-info">29.57</p>
-                        </li>
+                            <li class="list-group-item">Marketcap
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.Marketcap}</p>
+                            </li>
                             
-                        <li class="list-group-item">Open
-                            <p class= "card-subtitle mb-2 text-muted" id="stock-info">91.7%</p>
-                        </li>
+                            <li class="list-group-item">Open
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.Open}</p>
+                            </li>
 
-                        <li class="list-group-item">PE
-                            <p class= "card-subtitle mb-2 text-muted" id="stock-info">91.7%</p>
-                        </li>
+                            <li class="list-group-item">PE
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.PE}</p>
+                            </li>
 
-                        <li class="list-group-item">Volume
-                            <p class= "card-subtitle mb-2 text-muted" id="stock-info">91.7%</p>
-                        </li>
+                            <li class="list-group-item">Volume
+                                <p class= "card-subtitle mb-2 text-muted" id="stock-info">{this.state.stockDetails.Volume}</p>
+                            </li>
 
-                    </ul>
+                        </ul>
+                        </main>
+                    }
+                
                   
                 </div>
                     
@@ -124,8 +185,7 @@ class Details extends React.Component {
       );
     }
   }
-  export default Details;
-
+  export default withRouter(Details);
 
 
 

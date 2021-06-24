@@ -21,6 +21,7 @@ ReactDOM.render(
               <Route path="/watchlist">
                 <Watchlist></Watchlist>
               </Route>
+
               <Route path="/details/:stockSymbol" children={<Details/>} />
 
               <Route path="/">

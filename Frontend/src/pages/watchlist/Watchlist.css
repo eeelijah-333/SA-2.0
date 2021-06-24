@@ -1,21 +1,19 @@
-.card-watchlist {
-    width: 20rem;
-    
+.stock-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
-
-#watchlist-info{
-
-    float: right;
+.stock-item:hover {
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
-#stock-info {
-    float: right;
+.si-name {
+    color: rgba(0, 0, 0, 0.5);
+    padding-left: 20px;
 }
-
-#add-button{
-    float: right;
-}
-
-#remove-button{
-    float: right;
+.si-price {
+    font-size: 18px;
+    padding: 10px 0 0 0;
+    font-weight: 800;
 }
 

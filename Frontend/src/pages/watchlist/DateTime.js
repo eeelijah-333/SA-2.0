@@ -1,6 +1,8 @@
 import './DateTime.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SearchBar from '../searchbar/SearchBar';
+
 
 
 class DateTime extends React.Component {
@@ -33,7 +35,7 @@ class DateTime extends React.Component {
       return (
         <div>
           <center>
-          <td>{this.state.date.toLocaleDateString()}{" "}{this.state.date.toLocaleTimeString()}{" "} <input type="text" placeholder="Search.."></input></td> 
+          <td>{this.state.date.toLocaleDateString()}{" "}{this.state.date.toLocaleTimeString()}<SearchBar/></td> 
           </center>
         
         </div>
